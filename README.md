@@ -11,7 +11,7 @@
 ### 核心分为两部分：<br>
 #### master无故障切换：<br>
 根据auto_position值可将复制模式分为两类：1. 传统复制   2. gtid复制<br>
-两种模式在切换之前所有slave执行stop slave until bin_log_file="指定二进制文件"，pos="指定一个pos点"，此时两slave的数据一致，然后可以直接执行 change master to 切换.<br>
+两种模式在切换之前先执行stop slave，再执行start slave until bin_log_file="指定二进制文件"，pos="指定一个pos点"，此时两slave的数据一致，然后可以直接执行 change master to 切换.<br>
 #### master故障切换：<br>
 根据auto_position值可将复制模式分为两类：1. 传统复制   2. gtid复制<br>
 1. 传统模式：锁表，新master逻辑备份，导入slave达到数据一致，然后直接切换，解锁.<br>
