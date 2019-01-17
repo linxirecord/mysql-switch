@@ -15,4 +15,4 @@
 #### master故障切换：<br>
 根据auto_position值可将复制模式分为两类：1. 传统复制   2. gtid复制<br>
 1. 传统模式：锁表，新master逻辑备份，导入slave达到数据一致，然后直接切换，解锁.<br>
-2. gtid模式：所有slave的二进制日志中同一个事务的gtid相同，可以取值比较，如果新master的值较大，说明其上的数据量多于slave，然后slave直接切换change master to ,因为gtid会进行比对，相同的gtid会被kill掉，直到找到自己没有的gtid值时开始复制；新master的值小，说明数据量少于slave，这个还没有啥好方法，最坏用备份.
+2. gtid模式：所有slave的二进制日志中同一个事务的gtid相同，可以取值比较，如果新master的值较大，说明其上的数据量多于slave，然后slave直接切换change master to ,因为gtid会进行比对，相同的gtid会被kill掉，直到找到自己没有的gtid值时开始复制；新master的值小，说明数据量少于slave，根据gtid值取出pos点然后进行回滚，直接切换。
