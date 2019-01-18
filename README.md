@@ -5,7 +5,7 @@
 ## 代码描述：
 1. conn_database 连接数据库方法
 2. check_slave 获取slave的复制状态方法
-3. ssh_server备份数据库文件
+3. ssh_server备份数据库文件 (线上机器可能不是22，用时需要修改)
 4. ftp_file下载备份文件
 5. reuser_code 重用代码
 6. switch_data 两种切换模式
