@@ -156,17 +156,20 @@ class Mysql_switch(object):
                     slave_pos=  slave_file_pos[0]['Position']
                     sql3="stop slave"
                     sql4="start slave until master_log_file ='%s' , master_log_pos =%s" %(slave_file,slave_pos)
+                    self.conn_database(sql3)
+                    self.conn_database(sql4)
                     slave_server_id= int(self.conn_database(sql1)[0]['Value'])
-                    sql3="change master to master_host='%s',master_port=%s,master_user='%s',master_password='%s',\
+                    sql5="change master to master_host='%s',master_port=%s,master_user='%s',master_password='%s',\
                         master_auto_position=%s" %(self.host, self.port, self.user, self.passwd,slave_server_id)
-                    self.reuse_code(sql3)                                 #此时两库的数据一致
-
-
-                    sql1="show variables like 'server_id%'"
-                    master_server_id=int(self.conn_database(new_host,new_port,sql1)[0]['Value'])
-                    sql2="change master to master_host='%s',master_port=%s,master_user='%s',master_password='%s',\
+                    self.reuse_code(sql5)                                 #此时两库的数据一致
+                    time.sleep(5)
+                    self.conn_database(new_host,new_port,sql3)
+                    
+                    sql6="show variables like 'server_id%'"
+                    master_server_id=int(self.conn_database(new_host,new_port,sql6)[0]['Value'])
+                    sql7="change master to master_host='%s',master_port=%s,master_user='%s',master_password='%s',\
                          master_auto_position=%s" % (new_host, new_port, self.user, self.passwd, master_server_id)
-                    self.reuse_code(sql2)
+                    self.reuse_code(sql7)
 
 
 print('####需要切换的slave ip,port,user,passwd####')
